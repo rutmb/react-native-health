@@ -311,6 +311,16 @@ declare module 'react-native-health' {
       callback: (err: string, results: HealthValue) => void,
     ): void
 
+    getECG(
+      options: HealthValueOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
+
+    getMostRecentECG(
+      options: HealthValueOptions,
+      callback: (err: string, results: HealthValue) => void,
+    ): void
+
     setObserver(options: HealthObserverOptions): void
 
     Constants: Constants
@@ -515,6 +525,7 @@ declare module 'react-native-health' {
     Vo2Max = 'Vo2Max',
     Weight = 'Weight',
     Workout = 'Workout',
+    ECG = 'ECG',
   }
 
   export enum HealthUnit {
@@ -562,6 +573,7 @@ declare module 'react-native-health' {
     StairClimbing = 'StairClimbing',
     Walking = 'Walking',
     Workout = 'Workout',
+    ECG = 'ECG'
   }
 
   const appleHealthKit: AppleHealthKit

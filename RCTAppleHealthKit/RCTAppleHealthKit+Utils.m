@@ -155,6 +155,8 @@
         return [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
     } else if ([type isEqual:@"Workout"]) {
         return [HKObjectType workoutType];
+    } else if ([type isEqual:@"ECG"]) {
+      return [HKObjectType electrocardiogramType];
     }
 
     return [HKObjectType workoutType];

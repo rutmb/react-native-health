@@ -6,6 +6,7 @@ import {
   View,
   Text,
   StatusBar,
+  NativeAppEventEmitter
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -17,8 +18,8 @@ import AppleHealthKit, {
 /* Permission options */
 const permissions = {
   permissions: {
-    read: [AppleHealthKit.Constants.Permissions.HeartRate],
-    write: [AppleHealthKit.Constants.Permissions.Steps],
+    read: [AppleHealthKit.Constants.Permissions.ECG],
+    write: [],
   },
 } as HealthKitPermissions;
 
@@ -30,18 +31,29 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
   }
 
   /* Can now read or write to HealthKit */
+  const callback = (): void => {
+    fetchECG()
+  }
 
+  /* Register native listener that will be triggered on each update */
+  NativeAppEventEmitter.addListener('healthKit:ECG:new', callback)
+
+  // fetchECG()
+});
+
+function fetchECG() {
   const options = {
     startDate: new Date(2020, 1, 1).toISOString(),
   };
 
-  AppleHealthKit.getHeartRateSamples(
+  AppleHealthKit.getMostRecentECG(
     options,
     (callbackError: string, results: HealthValue[]) => {
-      /* Samples are now collected from HealthKit */
+      console.log(callbackError);
+      console.log(results);
     },
   );
-});
+}
 
 export default function App() {
   const [authStatus, setAuthStatus] = useState<any>({});

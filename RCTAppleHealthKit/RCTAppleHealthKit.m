@@ -20,6 +20,7 @@
 #import "RCTAppleHealthKit+Methods_Mindfulness.h"
 #import "RCTAppleHealthKit+Methods_Workout.h"
 #import "RCTAppleHealthKit+Methods_LabTests.h"
+#import "RCTAppleHealthKit+Methods_ECG.h"
 
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventDispatcher.h>
@@ -345,6 +346,16 @@ RCT_EXPORT_METHOD(saveBloodAlcoholContent: (NSDictionary *)input callback:(RCTRe
     [self labTests_saveBloodAlcoholContent:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(getMostRecentECG: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self fetchMostRecentECG:input callback:callback];
+}
+
+RCT_EXPORT_METHOD(getECG: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self fetchECG:input callback:callback];
+}
+
 - (void)isHealthKitAvailable:(RCTResponseSenderBlock)callback
 {
     BOOL isAvailable = NO;
@@ -483,7 +494,8 @@ RCT_EXPORT_METHOD(saveBloodAlcoholContent: (NSDictionary *)input callback:(RCTRe
             @"Swimming",
             @"Vo2Max",
             @"Walking",
-            @"Workout"
+            @"Workout",
+            @"ECG"
         ];
 
         for(NSString * type in observers) {
