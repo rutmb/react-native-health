@@ -51,7 +51,9 @@
         dispatch_group_enter(group);
         [self fetchECGValueOfSample:sample completion:^(NSArray * samples, NSError *error) {
           if (error == nil) {
-            [data addObjectsFromArray:samples];
+            NSMutableArray* array = [NSMutableArray arrayWithArray:samples];
+            [array insertObject:@(sample.endDate.timeIntervalSince1970) atIndex:0];
+            [data addObjectsFromArray:array];
           }
           dispatch_group_leave(group);
         }];
