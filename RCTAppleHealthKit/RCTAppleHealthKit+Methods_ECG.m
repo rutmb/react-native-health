@@ -53,6 +53,7 @@
           if (error == nil) {
             NSMutableArray* array = [NSMutableArray arrayWithArray:samples];
             [array insertObject:@(sample.endDate.timeIntervalSince1970) atIndex:0];
+            [array insertObject:@([sample.samplingFrequency doubleValueForUnit:[HKUnit hertzUnit]]) atIndex:1];
             [data addObjectsFromArray:array];
           }
           dispatch_group_leave(group);
