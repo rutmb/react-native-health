@@ -51,10 +51,14 @@
         dispatch_group_enter(group);
         [self fetchECGValueOfSample:sample completion:^(NSArray * samples, NSError *error) {
           if (error == nil) {
-            NSMutableArray* array = [NSMutableArray arrayWithArray:samples];
-            [array insertObject:@(sample.endDate.timeIntervalSince1970) atIndex:0];
-            [array insertObject:@([sample.samplingFrequency doubleValueForUnit:[HKUnit hertzUnit]]) atIndex:1];
-            [data addObjectsFromArray:array];
+            NSMutableDictionary* params = [NSMutableDictionary dictionary];
+            params[@"ecg"] = samples;
+            params[@"frequency"] = @([sample.samplingFrequency doubleValueForUnit:[HKUnit hertzUnit]]);
+            params[@"date"] = @(sample.endDate.timeIntervalSince1970);
+            double averageHeartRate = [sample.averageHeartRate doubleValueForUnit:[[HKUnit countUnit] unitDividedByUnit:[HKUnit minuteUnit]]];
+            params[@"avgRate"] = @(averageHeartRate);
+            params[@"classification"] = @(sample.classification);
+            [data addObject:params];
           }
           dispatch_group_leave(group);
         }];
